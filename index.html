@@ -15,6 +15,7 @@
     <div class="app-layout">
         <aside class="sidebar">
             <div class="logo"><h2>✨ Finanças<span>RPG</span></h2></div>
+            
             <div class="mascot-panel box-style glass" id="mascotPanelWrap">
                 <div class="level-badge pulse" id="levelBadge">Lvl 1</div>
                 <h3 id="mascotNameDisplay" class="gradient-text" style="font-size:1.5rem; margin-bottom: 5px;">Mascote</h3>
@@ -39,9 +40,14 @@
                     <small class="label-title" style="margin:0;">Classe:</small>
                     <small id="playerClassDisplay" style="font-weight: 800; color: var(--primary);">Nenhuma</small>
                 </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
                     <small class="label-title" style="margin:0;">Guilda:</small>
                     <small id="guildCoinsDisplay" style="font-weight: 800; color: var(--warning);">0 🟡</small>
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button id="themeToggle" class="btn-theme" style="flex: 1;">🦇 Trevas</button>
+                    <button id="toggleSound" class="btn-theme" style="flex: 1;">🔊 Som</button>
                 </div>
             </div>
             
@@ -55,11 +61,6 @@
                     <li data-target="view-config">📜 Menu</li>
                 </ul>
             </nav>
-            
-            <div style="margin-top: auto; display: flex; gap: 10px;">
-                <button id="themeToggle" class="btn-theme" style="flex: 1;">🦇</button>
-                <button id="toggleSound" class="btn-theme" style="flex: 1;">🔊</button>
-            </div>
         </aside>
 
         <nav class="mobile-nav glass">
@@ -211,9 +212,9 @@
             <div id="view-config" class="view">
                 <div class="box-style glass" style="margin-bottom: 2rem; text-align: center;">
                     <h3 class="gradient-text">Batizar Companheiro 🐾</h3>
-                    <div style="display:flex; justify-content:center; gap:10px; margin-top:1rem;">
-                        <input type="text" id="mascotNameInput" class="input-glass" style="max-width:300px;" placeholder="Nome da Mascote">
-                        <button class="btn-primary" style="width:auto; margin:0;" onclick="renameMascot()">Salvar Nome</button>
+                    <div class="row" style="margin-top:1rem;">
+                        <input type="text" id="mascotNameInput" class="input-glass" placeholder="Nome da Mascote">
+                        <button class="btn-primary" style="margin:0;" onclick="renameMascot()">Salvar Nome</button>
                     </div>
                 </div>
                 <section class="summary-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 2rem;">
@@ -238,10 +239,10 @@
                 </div>
                 
                 <div class="credits-box box-style glass">
-                    <h3 style="color: var(--primary-hover); font-size: 1.5rem;">Desenvolvido com ☕ & ❤️ por</h3>
+                    <h3 style="color: var(--primary-hover); font-size: 1.5rem;">Desenvolvido com Sono & ❤️ por</h3>
                     <h1 class="gradient-text" style="font-size: 2.5rem; margin: 10px 0;">The Dog</h1>
                     <p style="font-size: 1.2rem; font-weight: 700; color: var(--text-dark);">Developer Full Stack</p>
-                    <a href="https://github.com/TheDogFullStack" target="_blank" style="display: inline-block; margin-top: 15px; padding: 10px 30px; background: var(--text-dark); color: var(--bg-main); border-radius: 50px; text-decoration: none; font-weight: 800; transition: 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">Acessar Portfólio 🚀</a>
+                    <a href="https://my-port-seven-plum.vercel.app" target="_blank" style="display: inline-block; margin-top: 15px; padding: 10px 30px; background: var(--text-dark); color: var(--bg-main); border-radius: 50px; text-decoration: none; font-weight: 800; transition: 0.3s;">Acessar Portfólio 🚀</a>
                 </div>
             </div>
             
@@ -283,14 +284,13 @@
                 </div>
                 <div class="achievements-grid" id="achievementsContainer"></div>
             </div>
-
         </main>
     </div>
 
     <div id="classModal" class="modal" style="background: var(--bg-main);">
         <div class="modal-content box-style glass" style="max-width: 800px; text-align: center;">
             <h1 class="gradient-text" style="font-size: 3rem; margin-bottom: 1rem;">Escolhe a tua Classe!</h1>
-            <div class="summary-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+            <div class="class-grid">
                 <div class="card hover-up class-card" onclick="selectClass('mago')"><h1 style="font-size: 4rem;">🔮</h1><h3 style="color: var(--primary);">Mago do Tempo</h3></div>
                 <div class="card hover-up class-card" onclick="selectClass('guerreiro')"><h1 style="font-size: 4rem;">⚔️</h1><h3 style="color: var(--danger);">Guerreiro</h3></div>
                 <div class="card hover-up class-card" onclick="selectClass('ladino')"><h1 style="font-size: 4rem;">🗡️</h1><h3 style="color: var(--success);">Ladino</h3></div>
