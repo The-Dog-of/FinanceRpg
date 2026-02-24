@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Finanças RPG - Lenda Viva</title>
+    <title>Finanças RPG</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#A78BFA">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -11,347 +11,446 @@
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <div id="ambientContainer"></div>
-    <div class="app-layout">
-        <aside class="sidebar">
-            <div class="logo"><h2>✨ Finanças<span>RPG</span></h2></div>
-            
-            <div class="mascot-panel box-style glass" id="mascotPanelWrap">
-                <div class="level-badge pulse" id="levelBadge">Lvl 1</div>
-                <h3 id="mascotNameDisplay" class="gradient-text" style="font-size:1.5rem; margin-bottom: 5px;">Mascote</h3>
-                <small id="mascotEvolutionDisplay" style="color:var(--warning); font-weight:800; display:block; margin-bottom:10px;">Bebê Aprendiz</small>
-                
-                <div class="mascot-image-wrapper" id="petZone" style="cursor: pointer;">
-                    <img id="mascotImage" src="assets/feliz.jpg" alt="Mascote" onerror="this.style.display='none'; document.getElementById('mascotFallback').style.display='flex';">
-                    <div id="mascotFallback" style="display:none; font-size: 4rem; width: 100%; height: 100%; align-items: center; justify-content: center;">🦊</div>
-                    <div id="mascotSkin" class="skin-overlay"></div>
-                </div>
-                
-                <div class="speech-bubble"><p id="mascotMessage">A nossa lenda começa agora!</p></div>
-                <div class="xp-bar-container"><div class="xp-bar-fill pulse" id="xpBar"></div></div>
-                <small id="xpText" style="font-weight: 700;">0 / 500 XP</small>
-                <hr class="divider">
-                
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                    <small class="label-title" style="margin:0;">Título:</small>
-                    <small id="playerTitleDisplay" style="font-weight: 800; color: var(--warning);">Novato</small>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                    <small class="label-title" style="margin:0;">Classe:</small>
-                    <small id="playerClassDisplay" style="font-weight: 800; color: var(--primary);">Nenhuma</small>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-                    <small class="label-title" style="margin:0;">Guilda:</small>
-                    <small id="guildCoinsDisplay" style="font-weight: 800; color: var(--warning);">0 🟡</small>
-                </div>
 
-                <div style="display: flex; gap: 10px;">
-                    <button id="themeToggle" class="btn-theme" style="flex: 1;">🦇 Trevas</button>
-                    <button id="toggleSound" class="btn-theme" style="flex: 1;">🔊 Som</button>
-                </div>
+    <video id="bgVideo" autoplay loop muted playsinline class="bg-video" src="assets/bg_noite.mp4"></video>
+    <div id="ambientContainer"></div>
+    <audio id="lofiPlayer" loop src="assets/lofi.mp3"></audio>
+
+    <div class="app-layout">
+        
+        <aside class="sidebar desktop-only">
+            <div class="logo">
+                <h2>Finanças<span>RPG</span></h2>
             </div>
-            
+
+            <div id="mascotPanelDesktop"></div>
+
             <nav class="desktop-nav">
                 <ul id="navMenu">
                     <li class="active" data-target="view-dashboard">🎮 Base</li>
                     <li data-target="view-lancamentos">💸 Bolsa</li>
-                    <li data-target="view-maldicoes">☠️ Maldições</li>
-                    <li data-target="view-arena" style="color: var(--danger);">🐉 Arena do Boss</li>
-                    <li data-target="view-loja" style="color: var(--warning);">🛍️ Cidade / Banco</li>
-                    <li data-target="view-config">📜 Menu</li>
+                    <li data-target="view-arena">🐉 Arena do Boss</li>
+                    <li data-target="view-taverna">🍻 Taverna</li>
+                    <li data-target="view-loja">🛍️ Cidade Real</li>
+                    <li data-target="view-skills">🌲 Habilidades</li>
+                    <li data-target="view-config">📜 Grimório</li>
                 </ul>
             </nav>
+
+            <div style="display:flex; gap:10px; margin-top: auto; margin-bottom: 10px;">
+                <button id="themeToggleDesk" class="btn-theme" style="flex:1">🦇 Tema</button>
+                <button id="toggleSoundDesk" class="btn-theme" style="flex:1">🔊 SFX</button>
+            </div>
+            <button id="toggleRadioDesk" class="btn-primary" style="margin-top:0">📻 Rádio Lo-Fi</button>
         </aside>
 
-        <nav class="mobile-nav glass">
+        <nav class="mobile-nav glass mobile-only">
             <ul id="navMenuMobile">
                 <li class="active" data-target="view-dashboard">🎮</li>
                 <li data-target="view-lancamentos">💸</li>
                 <li data-target="view-arena">🐉</li>
+                <li data-target="view-taverna">🍻</li>
                 <li data-target="view-loja">🛍️</li>
+                <li data-target="view-skills">🌲</li>
                 <li data-target="view-config">📜</li>
             </ul>
         </nav>
 
         <main class="main-content">
+            
+            <div class="mobile-only" style="margin-bottom: 1.5rem;">
+                <div id="mascotPanelMobile"></div>
+            </div>
+
             <header class="header-flex glass box-style" style="padding: 1.5rem; margin-bottom: 2rem;">
                 <div class="header-title">
                     <h1 id="pageTitle" class="gradient-text">Sua Base</h1>
-                    <p id="pageSubtitle">Onde a magia acontece! ✨</p>
+                    <p id="pageSubtitle" class="text-muted">Onde a magia acontece! ✨</p>
                 </div>
-                <div class="month-filter">
-                    <label for="monthFilter" style="font-weight: 700;">📅 Tempo:</label>
-                    <select id="monthFilter" class="input-glass"><option value="all">Todo o Tempo</option></select>
+                <div>
+                    <label class="text-muted" style="font-size:0.9rem; font-weight:700;">📅 Tempo:</label>
+                    <select id="monthFilter" class="input-glass" style="padding:0.8rem; min-width:150px; cursor:pointer;"></select>
                 </div>
             </header>
 
             <div id="view-dashboard" class="view active">
-                <button id="btnRecap" class="btn-primary pulse-hover" style="margin-bottom: 2rem; background: linear-gradient(135deg, #F472B6, #8B5CF6); box-shadow: 0 5px 20px rgba(244, 114, 182, 0.4);">🎬 Ver Retrospectiva do Último Mês</button>
-                <section class="summary-grid">
-                    <div class="card balance hover-up"><h3>Baú de Ouro</h3><h2 id="balanceDisplay">R$ 0,00</h2></div>
-                    <div class="card income hover-up"><h3>Saques Livres</h3><h2 id="incomeDisplay">R$ 0,00</h2></div>
-                    <div class="card expense hover-up"><h3>Dano Sofrido</h3><h2 id="expenseDisplay">R$ 0,00</h2></div>
-                    <div class="card investment hover-up" style="border: 2px solid var(--investment-color);"><h3>Poder Oculto</h3><h2 id="investmentDisplay">R$ 0,00</h2></div>
-                </section>
+                <button id="btnRecap" class="btn-primary pulse-hover" style="margin-bottom: 2rem;">🎬 VER RETROSPECTIVA DO ÚLTIMO MÊS</button>
                 
-                <section class="middle-section split-dashboard" style="margin-bottom: 2rem;">
-                    <div class="chart-container box-style glass">
+                <div class="summary-grid">
+                    <div class="card balance hover-up">
+                        <h3>Baú de Ouro</h3>
+                        <h2 id="balanceDisplay">R$ 0,00</h2>
+                    </div>
+                    <div class="card income hover-up">
+                        <h3>Saques Livres</h3>
+                        <h2 id="incomeDisplay">R$ 0,00</h2>
+                    </div>
+                    <div class="card expense hover-up">
+                        <h3>Dano Sofrido</h3>
+                        <h2 id="expenseDisplay">R$ 0,00</h2>
+                    </div>
+                    <div class="card hover-up" style="border-color: var(--investment-color)">
+                        <h3>Poder Oculto</h3>
+                        <h2 id="investmentDisplay" style="color: var(--investment-color)">R$ 0,00</h2>
+                    </div>
+                </div>
+
+                <div class="split-dashboard" style="margin-bottom: 2rem;">
+                    <div class="box-style glass">
                         <h3>Evolução do Baú 📈</h3>
-                        <div class="canvas-wrapper" style="height: 250px;"><canvas id="historyChart"></canvas></div>
+                        <div class="canvas-wrapper">
+                            <canvas id="historyChart"></canvas>
+                        </div>
                     </div>
-                    <div class="chart-container box-style glass">
+                    <div class="box-style glass">
                         <h3>Dano por Área 🗺️</h3>
-                        <div class="canvas-wrapper" style="height: 250px;"><canvas id="expenseChart"></canvas></div>
+                        <div class="canvas-wrapper">
+                            <canvas id="expenseChart"></canvas>
+                        </div>
                     </div>
-                </section>
-                
-                <section class="history-section box-style glass">
+                </div>
+
+                <div class="box-style glass full-span">
                     <h3>Últimos Loots</h3>
                     <div class="table-responsive">
                         <table class="data-table">
                             <tbody id="dashboardTableBody"></tbody>
                         </table>
                     </div>
-                </section>
+                </div>
             </div>
 
             <div id="view-lancamentos" class="view">
-                <section class="middle-section lancamentos-layout">
-                    <div class="form-container box-style glass">
-                        <h3>Nova Ação ✨</h3>
+                <div class="lancamentos-layout">
+                    <div class="box-style glass" style="position: sticky; top: 2rem;">
+                        <h3>Adicionar Loot/Dano</h3>
                         <form id="transactionForm">
-                            <input type="text" id="desc" class="input-glass" placeholder="Nome do item/ação..." required>
-                            <input type="number" id="amount" class="input-glass" step="0.01" placeholder="Valor" required>
+                            <input type="text" id="desc" class="input-glass" placeholder="Nome do Item / Inimigo" required>
+                            <input type="number" id="amount" class="input-glass" placeholder="Valor (Ouros)" step="0.01" required>
                             <div class="row">
-                                <select id="type" class="input-glass" required>
-                                    <option value="expense">Saída (Gasto)</option>
-                                    <option value="income">Entrada (Ganho)</option>
-                                    <option value="investment">Investimento</option>
+                                <select id="type" class="input-glass">
+                                    <option value="income">Loot (Entrada)</option>
+                                    <option value="expense">Dano (Saída)</option>
+                                    <option value="investment">Baú Oculto (Investir)</option>
                                 </select>
-                                <select id="category" class="input-glass" required></select>
+                                <select id="category" class="input-glass"></select>
                             </div>
                             <input type="date" id="transDate" class="input-glass" required>
-                            <button type="submit" class="btn-primary pulse-hover">Guardar na Bolsa! 🎒</button>
+                            <button type="submit" class="btn-primary">Registrar no Grimório</button>
                         </form>
                     </div>
-                    <div class="history-section box-style glass">
+                    
+                    <div class="box-style glass">
                         <h3>Inventário Completo</h3>
                         <div class="table-responsive table-scroll">
                             <table class="data-table">
-                                <thead><tr><th>Ação</th><th>Categoria</th><th>Data</th><th>Valor</th><th>Comandos</th></tr></thead>
+                                <thead>
+                                    <tr>
+                                        <th>Ação</th>
+                                        <th>Categoria</th>
+                                        <th>Data</th>
+                                        <th>Valor</th>
+                                        <th>Comandos</th>
+                                    </tr>
+                                </thead>
                                 <tbody id="fullTableBody"></tbody>
                             </table>
                         </div>
                     </div>
-                </section>
-            </div>
-
-            <div id="view-maldicoes" class="view">
-                <section class="middle-section split-dashboard">
-                    <div class="form-container box-style glass">
-                        <h3 style="color: var(--danger);">Nova Maldição ☠️</h3>
-                        <form id="subForm" style="margin-top: 1rem;">
-                            <input type="text" id="subName" class="input-glass" placeholder="Ex: Aluguel, Internet" required>
-                            <input type="number" id="subAmount" class="input-glass" step="0.01" placeholder="Valor mensal" required>
-                            <select id="subCategory" class="input-glass" required>
-                                <option value="Moradia">Moradia</option><option value="Lazer">Lazer</option><option value="Outros">Outros</option>
-                            </select>
-                            <button type="submit" class="btn-primary pulse-hover" style="background: var(--danger); box-shadow: 0 5px 0 #9f1239;">Aceitar Maldição</button>
-                        </form>
-                    </div>
-                    <div class="history-section box-style glass">
-                        <h3>Maldições Ativas</h3>
-                        <div id="subsContainer" class="quests-list"></div>
-                    </div>
-                </section>
+                </div>
             </div>
 
             <div id="view-arena" class="view">
-                <div class="box-style glass" style="text-align: center; margin-bottom: 2rem; border-color: var(--danger);">
-                    <h3 class="gradient-text" style="font-size: 2.5rem; color: var(--danger);">Dragão da Inflação 🐉</h3>
-                    <div style="margin: 2rem 0;"><span style="font-size: 5rem;" id="bossEmoji">🐉</span></div>
-                    <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 1.2rem;">
-                        <span>HP do Boss (Orçamento)</span><span id="bossHpText">0 / 0</span>
+                <div class="box-style glass danger-zone" style="text-align: center; margin-bottom: 2rem;">
+                    <h1 id="bossEmoji" style="font-size: 6rem; margin-bottom: 1rem; transition: 0.3s;">🐉</h1>
+                    <h2 style="color: var(--danger); margin-bottom: 1rem;">O Dragão da Inflação</h2>
+                    <p class="text-muted" style="margin-bottom: 1rem;">Mantenha os gastos abaixo do limite para não morrer!</p>
+                    <div class="budget-bar-container" style="height: 30px; margin-bottom: 1rem;">
+                        <div id="bossHpBar" class="budget-bar-fill" style="width: 100%;"></div>
                     </div>
-                    <div class="quest-bar-container" style="height: 30px; border-radius: 10px; background: #333; margin-top: 10px;">
-                        <div class="quest-bar-fill pulse" id="bossHpBar" style="background: var(--danger);"></div>
+                    <h2 id="bossHpText" style="color: var(--text-dark);">0 / 0</h2>
+                    <div style="display:flex; gap:10px; justify-content:center; margin-top:20px; flex-wrap:wrap;">
+                        <input type="number" id="budgetInput" class="input-glass" placeholder="Definir HP Máximo do Boss" style="width: 250px;">
+                        <button class="btn-primary" style="width: auto; margin-top:0;" onclick="window.setBudget()">Salvar HP</button>
                     </div>
-                    <div style="margin-top: 2rem; display: flex; gap: 10px; justify-content: center;">
-                        <input type="number" id="budgetInput" class="input-glass" style="max-width: 200px;" placeholder="Definir Base">
-                        <button class="btn-primary" style="width: auto; margin: 0;" onclick="setBudget()">Definir HP</button>
+                </div>
+
+                <div class="box-style glass" style="margin-bottom: 2rem;">
+                    <h3>Maldições Ativas (DoT) ☠️</h3>
+                    <p class="text-muted" style="margin-bottom:1rem;">Custos fixos que te dão dano todo mês automaticamente.</p>
+                    <form id="subForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: end;">
+                        <input type="text" id="subName" class="input-glass" placeholder="Netflix, Luz..." required>
+                        <input type="number" id="subAmount" class="input-glass" placeholder="Valor" step="0.01" required>
+                        <select id="subCategory" class="input-glass">
+                            <option value="Moradia">Moradia</option>
+                            <option value="Lazer">Lazer</option>
+                            <option value="Transporte">Transporte</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                        <button type="submit" class="btn-primary" style="margin-top:0; background:var(--danger)">Assinar</button>
+                    </form>
+                    <div id="subsContainer" class="quests-list" style="margin-top: 2rem;"></div>
+                </div>
+            </div>
+
+            <div id="view-taverna" class="view">
+                <div class="grid-half">
+                    <div class="box-style glass">
+                        <h3>Quadro de Missões Diárias 📜</h3>
+                        <div id="dailyQuestsContainer" class="quests-list"></div>
                     </div>
+                    <div class="box-style glass">
+                        <h3>Gacha de Aliados 🎲</h3>
+                        <p class="text-muted" style="margin-bottom: 1rem;">Invoque Waifus e ganhe buffs poderosos! (Custa 50 🟡)</p>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn-primary" style="flex:1" onclick="window.pullGacha(1)">Invocação x1</button>
+                            <button class="btn-primary" style="flex:1; background: var(--warning); color:#000;" onclick="window.pullGacha(10)">Invocação x10</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-style glass" style="margin-top:2rem;">
+                    <h3>Quadro de Caça Livre 🎯</h3>
+                    <p class="text-muted" style="margin-bottom:1rem;">Crie metas e farme ouro ao completá-las!</p>
+                    <form id="questForm" style="display:flex; gap:10px; margin-bottom:2rem; flex-wrap:wrap;">
+                        <input type="text" id="questName" class="input-glass" placeholder="Nome da Missão (Ex: Comprar PC)" style="flex:2; min-width:200px;" required>
+                        <input type="number" id="questTarget" class="input-glass" placeholder="Valor Alvo" style="flex:1; min-width:100px;" required step="0.01">
+                        <button type="submit" class="btn-primary" style="flex:1; margin-top:0; min-width:150px;">Fixar Cartaz</button>
+                    </form>
+                    <div id="questsContainer" class="quests-list"></div>
+                </div>
+
+                <div class="box-style glass" style="margin-top:2rem; text-align:center;">
+                    <h3>Expedição AFK 🏕️</h3>
+                    <p class="text-muted" style="margin-bottom:1rem;">Envie sua mascote para farmar enquanto você descansa!</p>
+                    <h2 id="expeditionTimer" style="margin-bottom:1rem; color:var(--primary)">Pronta para partir!</h2>
+                    <button id="btnExpedition" class="btn-primary" style="width:100%; max-width:300px; margin:0 auto; display:block;">Iniciar Expedição (8h)</button>
                 </div>
             </div>
 
             <div id="view-loja" class="view">
-                <div class="summary-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 2rem;">
-                    <div class="box-style glass" style="text-align: center; position: relative;">
-                        <h3 class="gradient-text" style="font-size: 2rem;">Baú da Sorte 🎲</h3>
-                        <p class="text-muted" style="margin-bottom: 15px;">30 🟡 por tentativa! XP, Ouro ou Títulos!</p>
-                        <button class="btn-primary pulse-hover" style="width: auto; padding: 1rem 3rem;" onclick="openGacha()">Abrir (30 🟡)</button>
+                <div class="grid-half" style="margin-bottom: 2rem;">
+                    <div class="box-style glass" style="border-color: var(--danger)">
+                        <h3 style="color: var(--danger); text-align: center;">Mercado Negro 📉</h3>
+                        <p class="text-muted" style="text-align: center; margin-bottom: 1rem;">Compre baixo, venda alto. (Ações da Guilda)</p>
+                        <div class="canvas-wrapper" style="height: 150px; margin-bottom: 1rem;">
+                            <canvas id="stonksChart"></canvas>
+                        </div>
+                        <h3 id="stonksPriceDisplay" style="text-align: center; margin-bottom: 0.5rem;">1 Ação = 10 🟡</h3>
+                        <p class="text-muted" style="text-align: center; margin-bottom: 1rem;">Ações na Carteira: <span id="stonksOwnedDisplay" style="font-weight: 800; color: var(--primary);">0</span></p>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn-primary" style="background: var(--success); margin-top: 0;" onclick="window.tradeStonks('buy')">COMPRAR (1x)</button>
+                            <button class="btn-primary" style="background: var(--danger); margin-top: 0;" onclick="window.tradeStonks('sell')">VENDER (1x)</button>
+                        </div>
                     </div>
-                    <div class="box-style glass" style="text-align: center; border-color: var(--success);">
-                        <h3 style="color: var(--success); font-size: 2rem;">Banco da Guilda 🏛️</h3>
-                        <p class="text-muted">Rende 1% de Juros ao dia automaticamente.</p>
-                        <h2 id="bankBalanceDisplay" style="color: var(--success); font-size: 2.5rem; margin: 10px 0;">0 🟡</h2>
-                        <div class="row">
-                            <button class="btn-primary" style="background: var(--success); margin:0;" onclick="bankAction('dep')">Depositar 10</button>
-                            <button class="btn-primary" style="background: var(--danger); margin:0;" onclick="bankAction('with')">Sacar 10</button>
+
+                    <div class="box-style glass" style="border-color: var(--success)">
+                        <h3 style="color: var(--success); text-align: center;">Banco Central 🏛️</h3>
+                        <p class="text-muted" style="text-align: center; margin-bottom: 1rem;">Rende 1% ao dia (Base).</p>
+                        <h1 style="font-size: 4rem; text-align: center; margin: 1rem 0;">💰</h1>
+                        <h2 id="bankBalanceDisplay" style="text-align: center; margin-bottom: 1.5rem; color: var(--success);">0 🟡</h2>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn-primary" style="background: var(--success); margin-top: 0;" onclick="window.bankAction('dep')">DEP. 10</button>
+                            <button class="btn-primary" style="background: var(--danger); margin-top: 0;" onclick="window.bankAction('with')">SACAR 10</button>
                         </div>
                     </div>
                 </div>
 
-                <h3 style="margin-bottom: 1rem;">🏷️ Títulos</h3>
-                <div class="achievements-grid" id="titleContainer" style="margin-bottom: 3rem;"></div>
-                <h3 style="margin-bottom: 1rem;">🎨 Temas</h3>
-                <div class="achievements-grid" id="shopContainer" style="margin-bottom: 3rem;"></div>
-                <h3 style="margin-bottom: 1rem;">🎩 Skins</h3>
-                <div class="achievements-grid" id="skinContainer"></div>
+                <h3 class="gradient-text" style="margin-bottom:1rem;">🌸 Companheiras Desbloqueadas</h3>
+                <div class="achievements-grid" id="waifuContainer" style="margin-bottom:2rem;"></div>
+
+                <h3 class="gradient-text" style="margin-bottom:1rem;">💍 Artefatos Passivos</h3>
+                <div class="achievements-grid" id="artifactContainer" style="margin-bottom:2rem;"></div>
+
+                <h3 class="gradient-text" style="margin-bottom:1rem;">👑 Títulos de Honra</h3>
+                <div class="achievements-grid" id="titleContainer" style="margin-bottom:2rem;"></div>
+
+                <h3 class="gradient-text" style="margin-bottom:1rem;">🎨 Temas Mágicos</h3>
+                <div class="achievements-grid" id="shopContainer" style="margin-bottom:2rem;"></div>
+            </div>
+
+            <div id="view-skills" class="view">
+                <div class="box-style glass" style="text-align: center; margin-bottom: 2rem;">
+                    <h2>Pontos de Habilidade (SP): <span id="spDisplayCount" style="color:var(--primary); font-size: 3rem;">0</span></h2>
+                    <p class="text-muted">Ganhe 1 SP a cada Level Up!</p>
+                </div>
+                <div class="class-grid" id="skillsContainer"></div>
             </div>
 
             <div id="view-config" class="view">
-                <div class="box-style glass" style="margin-bottom: 2rem; text-align: center;">
-                    <h3 class="gradient-text">Batizar Companheiro 🐾</h3>
-                    <div class="row" style="margin-top:1rem;">
-                        <input type="text" id="mascotNameInput" class="input-glass" placeholder="Nome da Mascote">
-                        <button class="btn-primary" style="margin:0;" onclick="renameMascot()">Salvar Nome</button>
-                    </div>
-                </div>
-                <section class="summary-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 2rem;">
+                <div class="grid-half" style="margin-bottom: 2rem;">
                     <div class="box-style glass">
-                        <h3>Backup 💾</h3>
-                        <div class="row" style="margin-top: 1rem;">
-                            <button id="btnExportCSV" class="btn-primary" style="background: var(--success);">CSV</button>
-                            <button id="btnExportJSON" class="btn-primary">Save JSON</button>
+                        <h3>Batizar Companheira 🐾</h3>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="mascotNameInput" class="input-glass" placeholder="Novo Nome">
+                            <button class="btn-primary" style="margin-top: 0; width: auto;" onclick="window.renameMascot()">SALVAR</button>
                         </div>
                     </div>
-                    <div class="box-style glass">
-                        <h3>Restaurar 🧻</h3>
-                        <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 10px;">
-                            <input type="file" id="importJSON" class="input-glass" accept=".json">
-                            <button id="btnImportJSON" class="btn-primary" style="background: var(--warning); color: #333;">Carregar</button>
+
+                    <div class="box-style glass mobile-only">
+                        <h3>Rádio & Ambiente 🌙</h3>
+                        <div style="display:flex; gap:10px; margin-bottom: 10px;">
+                            <button id="themeToggleMob" class="btn-theme" style="flex:1">🦇 TEMA</button>
+                            <button id="toggleSoundMob" class="btn-theme" style="flex:1; background: var(--warning); color: #000; border-color: var(--warning);">🔊 SFX</button>
                         </div>
+                        <button id="toggleRadioMob" class="btn-primary" style="margin-top:0;">📻 RÁDIO</button>
                     </div>
-                </section>
-                <div class="box-style glass danger-zone" style="text-align: center; margin-bottom: 2rem;">
-                    <h3 style="color: var(--danger);">Zona de Perigo ☠️</h3>
-                    <button id="btnWipe" class="btn-primary pulse-hover" style="background: var(--danger); width: auto; padding: 1rem 3rem; margin-top: 1rem;">Deletar Personagem</button>
                 </div>
-                
-                <div class="credits-box box-style glass">
-                    <h3 style="color: var(--primary-hover); font-size: 1.5rem;">Desenvolvido com Sono & ❤️ por</h3>
-                    <h1 class="gradient-text" style="font-size: 2.5rem; margin: 10px 0;">The Dog</h1>
-                    <p style="font-size: 1.2rem; font-weight: 700; color: var(--text-dark);">Developer Full Stack</p>
-                    <a href="https://my-port-seven-plum.vercel.app" target="_blank" style="display: inline-block; margin-top: 15px; padding: 10px 30px; background: var(--text-dark); color: var(--bg-main); border-radius: 50px; text-decoration: none; font-weight: 800; transition: 0.3s;">Acessar Portfólio 🚀</a>
+
+                <div class="box-style glass" style="margin-bottom: 2rem;">
+                    <h3>Dados e Magia Obscura 💾</h3>
+                    <div class="grid-half">
+                        <button id="btnExportCSV" class="btn-primary" style="background: var(--success);">Exportar CSV (Excel)</button>
+                        <button id="btnExportJSON" class="btn-primary" style="background: var(--primary);">Fazer Backup (Save)</button>
+                        <div style="display:flex; flex-direction:column; gap:5px;">
+                            <label class="btn-primary" style="background: var(--warning); color:#000; text-align:center; margin-top:0;">
+                                Carregar Backup
+                                <input type="file" id="importJSON" accept=".json" style="display:none;">
+                            </label>
+                            <button id="btnImportJSON" class="btn-primary" style="margin-top:0; background: var(--text-dark);">Confirmar Carregamento</button>
+                        </div>
+                        <button id="btnWipe" class="btn-delete">APAGAR TUDO ☠️</button>
+                    </div>
                 </div>
-            </div>
-            
-            <div id="view-investimentos" class="view" style="display: none;">
-                <section class="history-section box-style glass">
-                    <h3>Registros do Cofre</h3>
-                    <div class="table-responsive">
-                        <table class="data-table">
-                            <tbody id="investTableBody"></tbody>
-                        </table>
-                    </div>
-                </section>
-            </div>
-            
-            <div id="view-missoes" class="view" style="display: none;">
-                <section class="middle-section split-dashboard">
-                    <div class="form-container box-style glass">
-                        <h3>Postar Missão 📜</h3>
-                        <form id="questForm" style="margin-top: 1rem;">
-                            <input type="text" id="questName" class="input-glass" placeholder="Nome da Missão" required>
-                            <input type="number" id="questTarget" class="input-glass" step="0.01" placeholder="Ouros necessários" required>
-                            <button type="submit" class="btn-primary pulse-hover">Assinar Contrato 🖋️</button>
-                        </form>
-                    </div>
-                    <div class="history-section box-style glass">
-                        <h3>Mural de Caça</h3>
-                        <div id="questsContainer" class="quests-list"></div>
-                    </div>
-                </section>
-            </div>
-            
-            <div id="view-trofeus" class="view" style="display: none;">
-                <div class="box-style glass" style="margin-bottom: 2rem; text-align: center;">
-                    <h3 class="gradient-text" style="font-size: 2rem;">Galeria de Lendas 👑</h3>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-weight: 700;">
-                        <span>Progresso do Herói</span><span id="achievementsCount">0 / 40 (0%)</span>
-                    </div>
-                    <div class="quest-bar-container" style="background: rgba(0,0,0,0.1);"><div class="quest-bar-fill pulse" id="achievementsProgress" style="background: linear-gradient(90deg, #A78BFA, #FBBF24);"></div></div>
-                </div>
-                <div class="achievements-grid" id="achievementsContainer"></div>
             </div>
         </main>
     </div>
 
+    <template id="mascotTemplate">
+        <div class="mascot-panel glass">
+            <div class="level-badge">Lvl <span class="lblLevel">1</span></div>
+            <h3 class="lblName" style="margin-bottom: 0.5rem; font-weight: 800;">Mascote</h3>
+            
+            <div class="mascot-image-wrapper petZone" style="cursor: pointer;">
+                <img class="imgFace" src="assets/gifs/zerotwo_feliz.gif" alt="Waifu">
+            </div>
+
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px; font-weight: 800;">
+                <span style="color: var(--danger)">❤️ Afinidade</span>
+                <span class="lblAffinityText" style="color: var(--text-muted)">Nvl 1</span>
+            </div>
+            <div class="xp-bar-container" style="height: 6px; margin-bottom: 1.5rem;">
+                <div class="xp-bar-fill lblAffinityBar" style="width: 0%; background: var(--danger);"></div>
+            </div>
+
+            <div class="speech-bubble">
+                <span class="lblMsg">A nossa lenda começa agora!</span>
+            </div>
+            
+            <div class="xp-bar-container">
+                <div class="xp-bar-fill barXp"></div>
+            </div>
+            <div style="font-size: 0.8rem; font-weight: 800; color: var(--text-muted); margin-bottom: 1.5rem;" class="lblXp">0 / 500 XP</div>
+            
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; border-bottom: var(--cartoon-border); padding-bottom: 0.5rem;">
+                <span style="color: var(--text-muted)">SP (Skill Points):</span>
+                <span class="lblSp" style="color: var(--success)">0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; border-bottom: var(--cartoon-border); padding-bottom: 0.5rem;">
+                <span style="color: var(--text-muted)">Classe:</span>
+                <span class="lblClass" style="color: var(--primary)">Nenhuma</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; border-bottom: var(--cartoon-border); padding-bottom: 0.5rem;">
+                <span style="color: var(--text-muted)">Guilda:</span>
+                <span class="lblCoins" style="color: var(--warning)">0 🟡</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 700;">
+                <span style="color: var(--text-muted)">Evolução:</span>
+                <span class="lblEvo" style="color: var(--primary)">Aprendiz</span>
+            </div>
+        </div>
+    </template>
+
     <div id="classModal" class="modal" style="background: var(--bg-main);">
-        <div class="modal-content box-style glass" style="max-width: 800px; text-align: center;">
-            <h1 class="gradient-text" style="font-size: 3rem; margin-bottom: 1rem;">Escolhe a tua Classe!</h1>
+        <div class="modal-content glass" style="max-width: 800px;">
+            <h1 class="gradient-text" style="text-align: center; margin-bottom: 1rem; font-size: 2.5rem;">Escolha o seu Caminho</h1>
+            <p class="text-muted" style="text-align: center; margin-bottom: 2rem;">Defina a sua classe e o seu destino.</p>
             <div class="class-grid">
-                <div class="card hover-up class-card" onclick="selectClass('mago')"><h1 style="font-size: 4rem;">🔮</h1><h3 style="color: var(--primary);">Mago do Tempo</h3></div>
-                <div class="card hover-up class-card" onclick="selectClass('guerreiro')"><h1 style="font-size: 4rem;">⚔️</h1><h3 style="color: var(--danger);">Guerreiro</h3></div>
-                <div class="card hover-up class-card" onclick="selectClass('ladino')"><h1 style="font-size: 4rem;">🗡️</h1><h3 style="color: var(--success);">Ladino</h3></div>
+                <div class="card class-card hover-up" onclick="window.selectClass('guerreiro')">
+                    <h1 style="font-size: 4rem;">⚔️</h1>
+                    <h2 style="color: var(--danger)">Guerreiro</h2>
+                    <p class="text-muted">Ataque frontal. Sem bónus passivos, mas forte e resistente.</p>
+                </div>
+                <div class="card class-card hover-up" onclick="window.selectClass('mago')">
+                    <h1 style="font-size: 4rem;">🧙‍♂️</h1>
+                    <h2 style="color: var(--primary)">Mago</h2>
+                    <p class="text-muted">+20% de ganho de XP em todas as transações.</p>
+                </div>
+                <div class="card class-card hover-up" onclick="window.selectClass('ladino')">
+                    <h1 style="font-size: 4rem;">🗡️</h1>
+                    <h2 style="color: var(--success)">Ladino</h2>
+                    <p class="text-muted">15% de desconto permanente em toda a Cidade Real.</p>
+                </div>
             </div>
         </div>
     </div>
 
     <div id="recapModal" class="modal">
-        <div class="modal-content box-style glass" id="recapContent" style="text-align: center; cursor: pointer; height: 70vh; display: flex; flex-direction: column; justify-content: center; position: relative;">
-            <div id="recapProgress" style="position:absolute; top: 10px; left: 10px; right: 10px; display:flex; gap:5px;"></div>
-            <h1 id="recapIcon" style="font-size: 6rem; margin-bottom: 20px;">📜</h1>
-            <h2 id="recapTitle" class="gradient-text" style="font-size: 2.5rem; margin-bottom: 20px;">Retrospectiva</h2>
-            <p id="recapText" style="font-size: 1.5rem; font-weight: 700; color: var(--text-dark);">Carregando as lendas passadas...</p>
-            <small style="position: absolute; bottom: 20px; left: 0; width: 100%; color: var(--text-muted);">Toque para avançar</small>
+        <div class="modal-content glass" style="text-align: center; padding: 3rem;">
+            <div id="recapContent" style="cursor: pointer;">
+                <h1 id="recapIcon" style="font-size: 5rem; margin-bottom: 1rem;">📅</h1>
+                <h2 id="recapTitle" style="color: var(--primary-hover); margin-bottom: 1rem; font-size: 2rem;"></h2>
+                <p id="recapText" class="text-muted" style="font-size: 1.2rem; font-weight: 600;"></p>
+                <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--warning); font-weight: 800; animation: pulse 1s infinite;">(Toque para continuar)</p>
+            </div>
         </div>
     </div>
 
     <div id="editModal" class="modal">
-        <div class="modal-content box-style glass">
-            <h3>Reforjar 🔨</h3>
-            <form id="editForm" style="margin-top: 1rem;">
+        <div class="modal-content glass">
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Reforjar Item 🔨</h2>
+            <form id="editForm">
                 <input type="hidden" id="editId">
                 <input type="text" id="editDesc" class="input-glass" required>
                 <input type="number" id="editAmount" class="input-glass" step="0.01" required>
                 <div class="row">
-                    <select id="editType" class="input-glass" required>
-                        <option value="expense">Saída</option>
-                        <option value="income">Entrada</option>
-                        <option value="investment">Investimento</option>
+                    <select id="editType" class="input-glass">
+                        <option value="income">Loot (Entrada)</option>
+                        <option value="expense">Dano (Saída)</option>
+                        <option value="investment">Baú Oculto (Investir)</option>
                     </select>
-                    <select id="editCategory" class="input-glass" required></select>
+                    <select id="editCategory" class="input-glass"></select>
                 </div>
                 <input type="date" id="editDate" class="input-glass" required>
-                <div class="row" style="margin-top: 1rem;">
-                    <button type="button" class="btn-delete" onclick="document.getElementById('editModal').classList.remove('active')">Voltar</button>
-                    <button type="submit" class="btn-primary" style="margin: 0;">Confirmar</button>
+                <div class="row">
+                    <button type="button" class="btn-delete" onclick="document.getElementById('editModal').classList.remove('active')" style="margin-top: 0; background: var(--text-muted);">Cancelar</button>
+                    <button type="submit" class="btn-primary" style="margin-top: 0;">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
-    
+
     <div id="dailyModal" class="modal">
-        <div class="modal-content box-style glass" style="text-align: center;">
-            <h1 style="font-size: 3rem; margin-bottom: 1rem;">🎁</h1>
-            <h2 class="gradient-text" style="font-size: 2rem;">Bônus Diário!</h2>
-            <h3 style="color: var(--warning); font-size: 1.5rem; margin-bottom: 1.5rem;">+50 XP & +15 Moedas 🟡</h3>
-            <button id="claimDailyBtn" class="btn-primary pulse-hover">Resgatar!</button>
+        <div class="modal-content glass" style="text-align: center; padding: 3rem;">
+            <h1 style="font-size: 5rem; margin-bottom: 1rem; animation: float 3s infinite;">🎁</h1>
+            <h2 class="gradient-text" style="font-size: 2.5rem; margin-bottom: 1rem;">Bônus de Login!</h2>
+            <p class="text-muted" style="font-size: 1.2rem; font-weight: 800; color: var(--warning); margin-bottom: 2rem;">+50 XP & +15 🟡</p>
+            <button id="claimDailyBtn" class="btn-primary pulse-hover">RESGATAR</button>
         </div>
     </div>
-    
+
     <div id="levelUpModal" class="modal">
-        <div class="modal-content box-style glass" style="text-align: center; border-color: var(--warning); box-shadow: 0 0 50px rgba(251, 191, 36, 0.5);">
-            <h1 style="font-size: 4rem; margin-bottom: 0;">🌟</h1>
-            <h2 class="gradient-text" style="font-size: 2.5rem; margin-bottom: 0.5rem;">LEVEL UP!</h2>
-            <div style="font-size: 4rem; font-weight: 800; color: var(--warning); margin: 1rem 0;" id="newLevelText">Lvl 2</div>
-            <button class="btn-primary pulse-hover" onclick="document.getElementById('levelUpModal').classList.remove('active')">Continuar Jornada</button>
+        <div class="modal-content glass" style="text-align: center; padding: 3rem; background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(167, 139, 250, 0.2)); border-color: var(--primary);">
+            <h1 style="font-size: 6rem; margin-bottom: 1rem; animation: jump 1s ease infinite;">⭐</h1>
+            <h2 class="gradient-text" style="font-size: 3rem; margin-bottom: 0.5rem;">LEVEL UP!</h2>
+            <h1 id="newLevelText" style="color: var(--primary); font-size: 4rem; margin-bottom: 1rem;">Lvl 2</h1>
+            <p class="text-muted" style="font-size: 1.2rem; font-weight: 800; margin-bottom: 2rem;">Você ganhou 1 Ponto de Habilidade (SP) e 50 🟡!</p>
+            <button class="btn-primary pulse-hover" onclick="document.getElementById('levelUpModal').classList.remove('active')">Continuar Aventura</button>
+        </div>
+    </div>
+
+    <div id="gachaModal" class="modal">
+        <div class="modal-content glass" style="text-align: center; padding: 3rem; background: rgba(0,0,0,0.8); border: 2px solid var(--warning);">
+            <h1 style="font-size: 5rem; margin-bottom: 1rem; animation: jump 0.5s ease infinite;">✨</h1>
+            <h2 style="color: white; font-size: 2rem; margin-bottom: 10px;">Invocação Realizada!</h2>
+            <p id="gachaResultDesc" style="color: var(--warning); font-size: 1.2rem; font-weight: 800; margin-bottom: 20px; white-space: pre-line;"></p>
+            <button class="btn-primary" onclick="document.getElementById('gachaModal').classList.remove('active')">Aceitar Destino</button>
         </div>
     </div>
 
     <div id="toastContainer" class="toast-container"></div>
     <div id="confettiContainer"></div>
+    
     <script src="script/main.js"></script>
 </body>
 </html>
